@@ -1,0 +1,324 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NEURAL_INT_v4.0 | Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Geist:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            overflow: hidden;
+        }
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 100, 124, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 100, 124, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glow-cyan {
+            box-shadow: 0 4px 20px 0 rgba(0, 100, 124, 0.15);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 12px 0 rgba(0, 108, 74, 0.3);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 100, 124, 0.05);
+            position: absolute;
+            animation: scan 6s linear infinite;
+            z-index: 5;
+            pointer-events: none;
+        }
+        @keyframes scan {
+            from { top: 0; }
+            to { top: 100%; }
+        }
+        .pulse-emerald {
+            animation: pulse-emerald 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-emerald {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eff4ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bdc8ce;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00647c;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#82f5c1",
+                      "on-secondary-container": "#00714e",
+                      "outline-variant": "#bdc8ce",
+                      "on-tertiary-container": "#fffbff",
+                      "on-tertiary-fixed": "#2d1600",
+                      "tertiary": "#894e00",
+                      "primary": "#00647c",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#213145",
+                      "on-background": "#0b1c30",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#6a3b00",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#fafdff",
+                      "on-primary-fixed-variant": "#004e61",
+                      "surface-variant": "#d3e4fe",
+                      "secondary-fixed": "#85f8c4",
+                      "surface": "#f8f9ff",
+                      "secondary-fixed-dim": "#68dba9",
+                      "inverse-primary": "#6cd3f7",
+                      "tertiary-fixed-dim": "#ffb873",
+                      "secondary": "#006c4a",
+                      "tertiary-fixed": "#ffdcbf",
+                      "surface-container-high": "#dce9ff",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-container": "#a86516",
+                      "primary-fixed-dim": "#6cd3f7",
+                      "on-surface": "#0b1c30",
+                      "primary-fixed": "#b7eaff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-error-container": "#93000a",
+                      "surface-container-low": "#eff4ff",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#3e484d",
+                      "surface-dim": "#cbdbf5",
+                      "background": "#f8f9ff",
+                      "surface-bright": "#f8f9ff",
+                      "on-secondary-fixed-variant": "#005137",
+                      "surface-container": "#e5eeff",
+                      "error": "#ba1a1a",
+                      "primary-container": "#007f9d",
+                      "surface-tint": "#006780",
+                      "on-primary-fixed": "#001f28",
+                      "outline": "#6e797e",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed": "#002114",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-desktop": "48px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "display-lg": ["JetBrains Mono"],
+                      "headline-lg": ["JetBrains Mono"],
+                      "headline-md": ["JetBrains Mono"],
+                      "label-caps": ["JetBrains Mono"],
+                      "body-lg": ["Geist"],
+                      "body-md": ["Geist"],
+                      "code-md": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "code-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="flex flex-col h-screen font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Entire Page Wrapper -->
+<div class="flex flex-col h-full overflow-hidden relative">
+<div class="scanline"></div>
+<!-- Header Section: Fixed Position issue resolved by making it part of the flex flow -->
+<header class="mb-12 flex justify-between items-center relative z-10 border-b p-6 bg-white border-outline-variant">
+<div class="font-label-caps text-primary text-[14px] tracking-widest">AI_TWIN_INTERVIEWER :: Jonathan_V2.5</div>
+<div class="bg-surface-container-low/50 backdrop-blur-sm border border-outline-variant/30 rounded-full p-1 flex gap-1">
+<button class="px-4 py-1.5 rounded-full text-[11px] font-label-caps bg-primary text-white shadow-sm transition-all">[Text Mode]</button>
+<button class="px-4 py-1.5 rounded-full text-[11px] font-label-caps text-on-surface-variant hover:text-primary transition-all">[Voice Mode]</button>
+</div>
+</header>
+<!-- Main Workspace: Chat + Status -->
+<main class="flex-1 flex overflow-hidden relative z-0 pb-[88px]">
+<!-- Left Column: Chat Flow -->
+<div class="flex-1 flex flex-col bg-transparent overflow-hidden pr-[340px] items-center">
+<div class="flex-1 overflow-y-auto p-8 space-y-10 max-w-[800px] w-full">
+<!-- AI Log Entry -->
+<div class="max-w-3xl space-y-3">
+<div class="flex items-center gap-2 font-label-caps text-[10px] text-primary ml-2">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">memory</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="smart_toy">smart_toy</span>
+                        AI_CORE_01 :: INITIALIZED
+                    </div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-3xl p-6 shadow-sm glow-cyan">
+<p class="font-code-md text-code-md text-on-surface">
+                            Welcome to the Neural Link Terminal. I will be conducting your technical assessment today. We will focus on <span class="text-secondary font-bold">Scalability, LLM Architecture, and Distributed Systems</span>. Are you prepared to begin the first module?
+                        </p>
+</div>
+</div>
+<!-- User Log Entry -->
+<div class="max-w-3xl ml-auto space-y-3">
+<div class="flex items-center justify-end gap-2 font-label-caps text-[10px] text-on-surface-variant mr-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 1;">account_circle</span>
+                        USER_ID_7721 :: AUTHENTICATED
+                        <span class="material-symbols-outlined text-[14px]" data-icon="person">person</span>
+</div>
+<div class="bg-primary/5 border border-primary/20 rounded-3xl p-6 shadow-inner">
+<p class="font-code-md text-code-md text-on-surface">
+                            I am ready. Let's start with LLM Architecture as specified in the session parameters.
+                        </p>
+</div>
+</div>
+<!-- AI Thinking Message -->
+<div class="max-w-4xl space-y-3">
+<div class="flex items-center gap-2 font-label-caps text-[10px] text-primary ml-2">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">memory</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="smart_toy">smart_toy</span>
+                        AI_CORE_01 :: PROCESSING
+                    </div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-3xl p-6 shadow-sm">
+<p class="font-code-md text-code-md text-primary opacity-80 italic mb-4">
+                            Querying architecture database...
+                        </p>
+<div class="bg-surface-container-low p-6 border border-outline-variant/30 rounded-2xl shadow-inner">
+<div class="flex justify-between mb-3">
+<span class="font-label-caps text-[10px] text-on-surface-variant">CODE_SNIPPET: TRANSFORMER_BLOCK</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant hover:text-primary cursor-pointer" data-icon="content_copy">content_copy</span>
+</div>
+<pre class="font-code-md text-code-md text-secondary">class MultiHeadAttention(nn.Module):<br>    def __init__(self, d_model, num_heads):<br>        super().__init__()<br>        assert d_model % num_heads == 0<br>        # Implementation hidden...<br>                            </pre>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex gap-4 font-code-md text-[10px] text-on-surface-variant opacity-60">
+<span class="">[Knowledge_Base_Source: Project_Resume_Section_RAG_Architecture]</span>
+<span class="">[RAG_Confidence: 91%]</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="h-[88px] backdrop-blur-md border-t border-outline-variant/30 z-50 flex items-center justify-center transition-all px-8 w-full max-w-[800px] rounded-full bg-white shadow-xl border mb-6" style="width: 800px;"><div class="w-full flex items-center justify-between gap-6">
+<div class="flex-1 relative">
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low border border-outline-variant/30 focus:ring-2 focus:ring-primary/20 focus:border-primary text-on-surface font-code-md placeholder:text-outline-variant transition-all py-3 px-6 rounded-3xl" placeholder="TYPE_COMMAND_HERE..." type="text">
+<div class="absolute right-4 flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" data-icon="attachment">attachment</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" data-icon="keyboard">keyboard</span>
+<span class="material-symbols-outlined text-secondary pulse-emerald cursor-pointer transition-colors" data-icon="mic">mic</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full border border-error/20 flex items-center justify-center text-error hover:bg-error/10 transition-all" title="[New Session]">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-primary hover:bg-primary/10 transition-all" title="Toggle TTS">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+</button>
+</div>
+<button class="px-8 py-3 bg-primary text-white font-label-caps text-label-caps uppercase tracking-widest rounded-3xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20">
+            SEND_SYNC
+        </button>
+</div>
+</div></footer></div>
+<!-- Right Column: Status Monitor -->
+<div class="fixed right-8 top-32 w-80 max-h-[calc(100vh-160px)] flex flex-col bg-surface-container-low/95 backdrop-blur-md p-6 overflow-y-auto hidden xl:flex border border-outline-variant/20 rounded-3xl shadow-xl z-20" style="max-height: calc(100vh - 160px);">
+<div class="space-y-6">
+<h2 class="font-label-caps text-label-caps text-primary border-b border-outline-variant pb-2 px-2">TELEMETRY_STREAM</h2>
+<div class="space-y-4">
+<!-- Status Cards -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary pulse-emerald glow-emerald"></div>
+<span class="font-label-caps text-label-caps text-on-surface">STATUS</span>
+</div>
+<span class="font-code-md text-code-md text-secondary font-bold">THINKING</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-container glow-cyan"></div>
+<span class="font-label-caps text-label-caps text-on-surface">TOPIC</span>
+</div>
+<span class="font-code-md text-code-md text-primary uppercase font-bold">LLM_ARCH</span>
+</div>
+<!-- Data Visualizer -->
+<div class="aspect-video bg-surface-container border border-outline-variant/40 rounded-2xl relative overflow-hidden group shadow-inner">
+<img alt="RAG Knowledge Map" class="w-full h-full object-cover transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASCAfcRY77AN3Qri-xV9PWIF-eSIpU9J6cCZZD6d26uhIOmmh77S4v-OC4MhJ2lDn2rFLG7tcLr3bfX2UW1ZCCCfJUk-ajB5Br_D7stbpdQ7_hlUYIusJFLHGAMXQ7qzhWJf8tXyFnBdwiDODjRLElloWkjZw3UVLC4M_KeySdMD0pNKNqqOu8-CMOje-Z2OLKllBVsSdTOqVVPbZBOpc6QKhCnG45vbnR5leeCjM9OHIkaYKEIAusd4Rjj7nc67bjfkVuM_nOccc">
+</div>
+</div>
+<!-- Floating Tags Section -->
+<div class="space-y-4 pt-4 px-2">
+<h3 class="font-label-caps text-[10px] text-on-surface-variant">ACTIVE_PARAMETERS</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-highest/40 border border-outline-variant/40 rounded-full font-code-md text-[11px] text-on-surface">temp: 0.7</span>
+<span class="px-3 py-1 bg-surface-container-highest/40 border border-outline-variant/40 rounded-full font-code-md text-[11px] text-on-surface">top_p: 0.9</span>
+<span class="px-3 py-1 bg-surface-container-highest/40 border border-outline-variant/40 rounded-full font-code-md text-[11px] text-on-surface">ctx: 8192</span>
+<span class="px-3 py-1 bg-surface-container-highest/40 border border-outline-variant/40 rounded-full font-code-md text-[11px] text-on-surface">stream: true</span>
+</div>
+</div>
+<!-- Mini Map -->
+<div class="pt-4">
+<div class="h-32 w-full bg-surface-container-low border border-outline-variant/40 rounded-2xl overflow-hidden opacity-80 relative shadow-inner">
+<div class="absolute inset-0 bg-primary/5"></div>
+<img alt="System Location" class="w-full h-full object-cover mix-blend-multiply opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALtGhqttDCAP_RVJ-0jXnqP0YduVdxywjq7G7Ugq850POl4DQB4ZAvUEq-2ekhkGXOUIZ8CZ0qtUnAVu6rSQlyuAOGhdT6UfslaWAlafR0Iz-11Mut7cpwiqszqs3X8fxto1IqqttXXPuCS2nypkz0VNH0_DfGtcaTdn6nMu0hSUwyGblhfCSMSWs8uYk2nu8Y8WyS-TOD4ZYiriATu8C9FAr9efLueEAQ9FAgj8seUIe3o1f9VUEkmxQXB5yMJEMUoJ4328ngVr8">
+<div class="absolute bottom-2 left-2 font-label-caps text-[9px] text-primary bg-white/90 px-2 py-0.5 rounded-full border border-outline-variant/30">SF_NODE_01</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Bottom Input (Floating above content) -->
+
+<script>
+    // Micro-interaction for input pulsing
+    const input = document.querySelector('input');
+    const footer = document.querySelector('footer');
+    
+    input.addEventListener('focus', () => {
+        footer.classList.add('glow-cyan');
+    });
+    
+    input.addEventListener('blur', () => {
+        footer.classList.remove('glow-cyan');
+    });
+
+    // Simulating terminal typing effect
+    const codes = document.querySelectorAll('pre');
+    codes.forEach(code => {
+        const text = code.innerText;
+        code.innerText = '';
+        let i = 0;
+        const typing = setInterval(() => {
+            if (i < text.length) {
+                code.innerText += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typing);
+            }
+        }, 15);
+    });
+</script>
+
+
+</body></html>
