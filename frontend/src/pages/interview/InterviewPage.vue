@@ -109,7 +109,7 @@ const store = useInterviewStore()
   width: 100%;
   max-width: 800px;
   flex-shrink: 0;
-  margin-bottom: 24px;
+  /* margin-bottom: 24px; */
 }
 
 @media (max-width: 1279px) {

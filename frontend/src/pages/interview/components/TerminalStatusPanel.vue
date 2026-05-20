@@ -76,7 +76,7 @@ const topicText = computed(() => props.topic.replace(/\s+/g, '_').slice(0, 24))
   z-index: 20;
   display: none;
   width: 320px;
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 200px);
   flex-direction: column;
   padding: 24px;
   overflow-y: auto;

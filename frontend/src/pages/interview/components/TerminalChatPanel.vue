@@ -86,11 +86,12 @@ const statusText = computed(() => statusTextMap[props.status])
 .chat-scroll {
   width: 100%;
   max-width: 800px;
+  max-height: calc(100vh - 200px);
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 32px 32px 16px;
+  padding: 0px 32px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
