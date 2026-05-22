@@ -20,4 +20,12 @@
 
 ## 当前阶段
 
-当前阶段仅用于建立目录结构以及面向单页产品方向的最小骨架。完整的聊天 UI、后端面试 API、记忆逻辑以及真实语音集成暂未实现，这是有意为之。
+当前阶段已经进入后端能力接入期。后端 Python 环境统一使用 `uv` 管理，避免全局解释器与项目依赖不一致。
+
+## Backend commands
+
+```bash
+uv sync --directory backend
+uv run --directory backend uvicorn app.main:app --app-dir src --reload
+uv run --directory backend pytest
+```

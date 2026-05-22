@@ -8,15 +8,17 @@ export type InterviewStatus =
   | 'thinking'
   | 'responding'
 
-export interface SourceTag {
-  label: string
-  kind: 'resume' | 'project' | 'note' | 'memory'
+export interface MessageCitation {
+  title: string
+  url: string
+  snippet: string
+  kind: string
 }
 
 export interface InterviewMessage {
   id: string
   role: 'interviewer' | 'assistant'
   content: string
-  sources: SourceTag[]
+  sources: MessageCitation[]
   createdAt: string
 }

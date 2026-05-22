@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"start-all.ps1\")",
+      "Bash(cmd /c \"start-all.bat\")",
+      "Bash(python -c \"import socket; s=socket.socket\\(\\); import sys; r=s.connect_ex\\(\\('127.0.0.1',8000\\)\\); print\\(r\\); s.close\\(\\)\")",
+      "Bash(netstat -ano)",
+      "Bash(findstr :8000)",
+      "Bash(python -c \"import urllib.request; import json; req=urllib.request.Request\\('http://127.0.0.1:8010/api/interview/chat', data=b'{\\\\\"session_id\\\\\":\\\\\"s1\\\\\",\\\\\"message\\\\\":\\\\\"hello\\\\\",\\\\\"history\\\\\":[]}', headers={'Content-Type':'application/json'}\\); resp=urllib.request.urlopen\\(req\\); print\\(resp.status\\); print\\(resp.read\\(\\).decode\\(\\)\\)\")",
+      "Bash(node --test \"frontend/vite-proxy.test.mjs\")"
+    ]
+  }
+}

@@ -1,74 +1,95 @@
 <template>
   <section class="chat-panel">
-    <div class="chat-scroll">
+    <div ref="scrollContainer" class="chat-scroll">
       <div
-        v-for="message in messages"
+        v-for="(message, messageIndex) in messages"
         :key="message.id"
         class="message-block"
-        :class="message.role === 'interviewer' ? 'message-block-user' : 'message-block-ai'"
+        :class="[
+          {
+            'message-block-user': message.role === 'interviewer',
+            'message-block-ai': message.role === 'assistant',
+            marginBotom: messageIndex === messages.length - 1,
+          }
+        ]"
+        :data-message-id="message.id"
+        :data-message-role="message.role"
       >
         <div class="message-meta" :class="message.role === 'interviewer' ? 'message-meta-user' : 'message-meta-ai'">
           <span class="message-icon">{{ message.role === 'interviewer' ? '◉' : '◆' }}</span>
-          <span>{{ message.role === 'interviewer' ? '候选人输入' : 'AI 核心输出' }}</span>
+          <span>{{ message.role === 'interviewer' ? '面试官输入' : '谢流星AI输出' }}</span>
         </div>
 
         <div class="message-card" :class="message.role === 'interviewer' ? 'message-card-user' : 'message-card-ai'">
           <p class="message-content">{{ message.content }}</p>
-          <div v-if="message.sources.length" class="message-sources">
-            <span v-for="source in message.sources" :key="`${message.id}-${source.label}`" class="source-tag">
-              {{ source.label }}
-            </span>
-          </div>
-        </div>
-      </div>
 
-      <div class="message-block thinking-block">
-        <div class="message-meta message-meta-ai">
-          <span class="message-icon">◆</span>
-          <span>AI 核心监测</span>
-        </div>
-        <div class="message-card message-card-ai thinking-card">
-          <p class="thinking-text">{{ statusText }}</p>
-          <div class="code-card">
-            <div class="code-card-header">
-              <span>代码片段：TRANSFORMER_BLOCK</span>
-              <span>复制</span>
-            </div>
-            <pre class="code-block">class MultiHeadAttention(nn.Module):
-    def __init__(self, d_model, num_heads):
-        super().__init__()
-        assert d_model % num_heads == 0
-        # 实现细节已隐藏...</pre>
-            <div class="code-footer">
-              <span>[知识来源：项目简历分段检索]</span>
-              <span>[检索置信度：91%]</span>
-            </div>
-          </div>
+          <section v-if="message.role === 'assistant' && message.sources.length" class="message-citations">
+            <h3 class="message-citations-title">引用来源</h3>
+            <ul class="message-citations-list">
+              <li
+                v-for="source in message.sources"
+                :key="`${message.id}-${source.kind}-${source.title}`"
+                class="citation-card"
+              >
+                <p class="citation-title">{{ source.title }}</p>
+                <a
+                  class="citation-link"
+                  :href="source.url"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {{ source.url }}
+                </a>
+                <p class="citation-snippet">{{ source.snippet }}</p>
+              </li>
+            </ul>
+          </section>
         </div>
       </div>
+      <!-- <div class="scroll-spacer" aria-hidden="true"></div> -->
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { InterviewMessage, InterviewStatus } from '../../../store/interview/types'
+import { nextTick, ref, watch } from 'vue'
+import type { InterviewMessage } from '../../../store/interview/types'
 
 const props = defineProps<{
   messages: InterviewMessage[]
-  status: InterviewStatus
 }>()
 
-const statusTextMap: Record<InterviewStatus, string> = {
-  idle: '等待新的面试问题输入...',
-  listening: '正在监听语音输入...',
-  transcribing: '正在将语音转换为文本...',
-  retrieving: '正在检索候选人相关资料...',
-  thinking: '正在生成回答结构与论证顺序...',
-  responding: '正在输出本轮回答内容...',
+const scrollContainer = ref<HTMLDivElement | null>(null)
+
+const scrollToBottom = () => {
+  const container = scrollContainer.value
+  if (!container) {
+    return
+  }
+
+  const nextTop = container.scrollHeight - container.clientHeight
+  container.scrollTo({
+    top: Math.max(0, nextTop),
+    behavior: 'smooth',
+  })
 }
 
-const statusText = computed(() => statusTextMap[props.status])
+watch(
+  () => props.messages.length,
+  async (messageCount, previousMessageCount) => {
+    if (messageCount <= previousMessageCount) {
+      return
+    }
+
+    await nextTick()
+    scrollToBottom()
+  },
+  { flush: 'post' },
+)
+
+defineExpose({
+  scrollToBottom,
+})
 </script>
 
 <style scoped>
@@ -81,17 +102,16 @@ const statusText = computed(() => statusTextMap[props.status])
   align-items: center;
   overflow: hidden;
   background: transparent;
+  height: 100%;
 }
 
 .chat-scroll {
-  width: 100%;
-  max-width: 800px;
-  max-height: calc(100vh - 200px);
+  /* max-height: calc(100vh - 200px); */
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0px 32px;
+  padding: 0 32px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -102,11 +122,21 @@ const statusText = computed(() => statusTextMap[props.status])
 
 .message-block {
   max-width: 768px;
-  margin-bottom: 40px;
+  min-width: 768px;
+  margin-top: 40px;
+  &.marginBotom{
+    margin-bottom: 20px;
+  }
 }
 
 .message-block-user {
   margin-left: auto;
+}
+
+.scroll-spacer {
+  height: clamp(160px, 24vh, 280px);
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .message-meta {
@@ -168,68 +198,59 @@ const statusText = computed(() => statusTextMap[props.status])
   white-space: pre-wrap;
 }
 
-.message-sources {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
+.message-citations {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(189, 200, 206, 0.3);
 }
 
-.source-tag {
-  padding: 6px 12px;
-  border: 1px solid rgba(189, 200, 206, 0.4);
-  border-radius: 9999px;
-  background: rgba(239, 244, 255, 0.75);
+.message-citations-title {
+  margin: 0 0 12px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   color: #3e484d;
 }
 
-.thinking-block {
-  max-width: 800px;
-  margin-bottom: 16px;
-}
-
-.thinking-card {
-  box-shadow: none;
-}
-
-.thinking-text {
-  margin: 0 0 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  line-height: 22px;
-  font-style: italic;
-  color: rgba(0, 100, 124, 0.8);
-}
-
-.code-card {
-  padding: 24px;
-  background: #eff4ff;
-  border: 1px solid rgba(189, 200, 206, 0.3);
-  border-radius: 16px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.code-card-header,
-.code-footer {
+.message-citations-list {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  line-height: 16px;
-  color: #3e484d;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.code-block {
-  margin: 16px 0;
+.citation-card {
+  padding: 12px 14px;
+  border: 1px solid rgba(189, 200, 206, 0.35);
+  border-radius: 16px;
+  background: rgba(239, 244, 255, 0.78);
+}
+
+.citation-title {
+  margin: 0;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  line-height: 22px;
-  color: #006c4a;
-  white-space: pre-wrap;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0b1c30;
+}
+
+.citation-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 18px;
+  color: #00647c;
+  word-break: break-all;
+}
+
+.citation-snippet {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3e484d;
 }
 </style>

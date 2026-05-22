@@ -6,7 +6,7 @@
           :value="draft"
           class="command-input"
           type="text"
-          placeholder="请输入你的面试问题..."
+          placeholder="请输入您的问题..."
           @input="$emit('update:draft', ($event.target as HTMLInputElement).value)"
           @keyup.enter="$emit('submit')"
         />
@@ -27,7 +27,7 @@
         <button class="circle-button circle-button-danger" type="button" title="开始新一轮" @click="$emit('clear')">↻</button>
         <button class="circle-button circle-button-primary" type="button" title="切换播报" @click="$emit('toggle-speech')">🔊</button>
       </div>
-      <button class="send-button" type="button" :disabled="disabled" @click="$emit('submit')">发送同步</button>
+      <button class="send-button" type="button" :disabled="disabled" @click="$emit('submit')">发送消息</button>
     </div>
   </footer>
 </template>

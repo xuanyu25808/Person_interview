@@ -1,3 +1,6 @@
-# Resume Knowledge Placeholder
+# Resume
 
-This file will store the candidate resume and background information for the AI interview twin.
+Candidate Summary
+- Backend-focused engineer building AI-assisted products.
+- Prefers grounded, deterministic systems before model integration.
+- Experience shipping FastAPI and Python services.

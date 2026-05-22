@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_tabs",
+      "Bash(git -C \"C:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-a2566965ab04b4513\" status --short)",
+      "Bash(git -C \"C:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-a2566965ab04b4513\" diff --stat)",
+      "Bash(git -C \"C:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-a2566965ab04b4513\" diff -- knowledge/interview_qa.md knowledge/notes.md knowledge/projects.md knowledge/resume.md)",
+      "Bash(git -C \"C:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-a2566965ab04b4513\" status --short backend knowledge/knowledge)",
+      "Bash(git -C \"C:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-a2566965ab04b4513\" log --oneline --decorate --max-count=5)",
+      "Bash(git worktree *)",
+      "Bash(pnpm --dir \"C:/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" vitest run src/pages/interview/InterviewPage.test.ts)",
+      "Bash(pnpm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" vitest run src/pages/interview/InterviewPage.test.ts)",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" test -- src/pages/interview/InterviewPage.test.ts)",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" test -- src/pages/interview/components/TerminalChatPanel.test.ts)",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" run build)",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" run dev -- --host 127.0.0.1 --port 4173)",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_wait_for",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" run dev -- --host 127.0.0.1 --port 4174)",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" test -- src/pages/interview/InterviewPage.test.ts src/pages/interview/components/TerminalChatPanel.test.ts)",
+      "Bash(npm --prefix \"/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/frontend\" test)",
+      "WebFetch(domain:github.com)",
+      "Bash(git clone *)",
+      "Read(//c/Users/DXM-1002/Desktop/xuanyu/project_1/AI-language-speak/**)",
+      "Bash(git -C \"c:/Users/DXM-1002/Desktop/xuanyu/project_1/AI-language-speak\" log --oneline -5)"
+    ]
+  }
+}

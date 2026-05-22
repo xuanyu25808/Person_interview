@@ -1,3 +1,6 @@
-# Projects Knowledge Placeholder
+# Projects
 
-This file will store project experience, project highlights, and delivery details for the AI interview twin.
+Retrieval Project
+- Built simple retrieval and ranking prototypes over markdown knowledge files.
+- Shipped interview copilot experiments that combine retrieval and memory.
+- Focused on deterministic pipelines and source attribution.

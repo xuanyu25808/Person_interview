@@ -1,3 +1,6 @@
-# Notes Knowledge Placeholder
+# Notes
 
-This file will store technical notes, design reflections, and engineering thinking for the AI interview twin.
+Working Style
+- Answers should stay grounded in candidate materials.
+- If evidence is missing, say so directly instead of inventing details.
+- Keep responses concise and tagged with sources.

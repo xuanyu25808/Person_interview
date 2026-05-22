@@ -1,35 +1,20 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { createMockReply } from './mock'
-import type { InterviewMessage, InterviewMode, InterviewStatus, SourceTag } from './types'
+import { sendInterviewMessage } from './api'
+import type { InterviewMessage, InterviewMode, InterviewStatus } from './types'
 
-const openingTopic = '建议先从自我介绍或一个代表项目切入。'
-
-const openingSources: SourceTag[] = [
-  { label: '简历摘要', kind: 'resume' },
-  { label: '项目亮点', kind: 'project' },
-]
-
-const createWelcomeMessage = (): InterviewMessage => ({
-  id: 'welcome',
-  role: 'assistant',
-  content:
-    '欢迎来到 AI 面试分身演示页。你可以直接追问项目经历、架构取舍、技术深度，或者我在工程推进中的判断方式。',
-  sources: openingSources,
-  createdAt: new Date().toISOString(),
-})
+const sessionId = () => crypto.randomUUID()
 
 export const useInterviewStore = defineStore('interview', () => {
   const mode = ref<InterviewMode>('text')
   const speechEnabled = ref(true)
   const status = ref<InterviewStatus>('idle')
   const voiceStatus = ref<InterviewStatus>('idle')
-  const topic = ref(openingTopic)
-  const activeSources = ref<SourceTag[]>(openingSources)
-  const messages = ref<InterviewMessage[]>([createWelcomeMessage()])
+  const messages = ref<InterviewMessage[]>([])
   const draft = ref('')
+  const currentSessionId = ref(sessionId())
 
-  const isBusy = computed(() => status.value !== 'idle')
+  const hasStarted = computed(() => messages.value.length > 0)
   const isVoiceMode = computed(() => mode.value === 'voice')
   const displayStatus = computed(() => {
     if (isVoiceMode.value && voiceStatus.value !== 'idle') {
@@ -38,6 +23,7 @@ export const useInterviewStore = defineStore('interview', () => {
 
     return status.value
   })
+  const isBusy = computed(() => displayStatus.value !== 'idle')
 
   const setMode = (value: InterviewMode) => {
     mode.value = value
@@ -74,43 +60,56 @@ export const useInterviewStore = defineStore('interview', () => {
       return
     }
 
-    messages.value.push({
+    const userMessage: InterviewMessage = {
       id: crypto.randomUUID(),
       role: 'interviewer',
       content: value,
       sources: [],
       createdAt: new Date().toISOString(),
-    })
+    }
 
+    messages.value.push(userMessage)
     draft.value = ''
     status.value = 'retrieving'
-    await new Promise((resolve) => setTimeout(resolve, 250))
-    status.value = 'thinking'
 
-    const payload = await createMockReply(value)
+    try {
+      const payload = await sendInterviewMessage({
+        sessionId: currentSessionId.value,
+        message: value,
+        history: messages.value.slice(0, -1).map((message) => ({
+          role: message.role,
+          content: message.content,
+        })),
+      })
 
-    status.value = 'responding'
-    messages.value.push(payload.reply)
-    topic.value = payload.topic
-    activeSources.value = payload.activeSources
-
-    await new Promise((resolve) => setTimeout(resolve, 200))
-    status.value = 'idle'
+      status.value = 'responding'
+      messages.value.push(payload.reply)
+    } catch {
+      messages.value.push({
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: '当前后端问答链路暂时不可用，请稍后再试。',
+        sources: [],
+        createdAt: new Date().toISOString(),
+      })
+    } finally {
+      status.value = 'idle'
+    }
   }
 
   const reset = () => {
+    currentSessionId.value = sessionId()
     status.value = 'idle'
     voiceStatus.value = 'idle'
-    topic.value = openingTopic
-    activeSources.value = openingSources
-    messages.value = [createWelcomeMessage()]
+    messages.value = []
     draft.value = ''
   }
 
   return {
-    activeSources,
+    currentSessionId,
     displayStatus,
     draft,
+    hasStarted,
     isBusy,
     isVoiceMode,
     messages,
@@ -124,7 +123,7 @@ export const useInterviewStore = defineStore('interview', () => {
     status,
     stopListening,
     toggleSpeech,
-    topic,
     voiceStatus,
   }
 })
+
