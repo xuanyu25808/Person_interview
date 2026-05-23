@@ -1,13 +1,11 @@
-import { createMockReply } from './mock'
-import type { InterviewMessage, MessageCitation } from './types'
+import type { InterviewMessage, InterviewMode, MessageCitation } from './types'
 
 export interface ChatRequest {
-  sessionId: string
-  message: string
-  history: Array<{
+  messages: Array<{
     role: 'interviewer' | 'assistant'
     content: string
   }>
+  mode: InterviewMode
 }
 
 export interface ChatResponse {
@@ -44,36 +42,31 @@ const isInterviewMessage = (value: unknown): value is InterviewMessage => {
   )
 }
 
-export const sendInterviewMessage = async ({ sessionId, message, history }: ChatRequest): Promise<ChatResponse> => {
-  try {
-    const response = await fetch('/api/interview/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        session_id: sessionId,
-        message,
-        history: history.map((turn) => ({
-          role: turn.role,
-          content: turn.content,
-        })),
-      }),
-    })
+export const sendInterviewMessage = async ({ messages, mode }: ChatRequest): Promise<ChatResponse> => {
+  const response = await fetch('/api/interview/chat', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      messages: messages.map((message) => ({
+        role: message.role,
+        content: message.content,
+      })),
+      mode,
+    }),
+  })
 
-    if (!response.ok) {
-      throw new Error('Interview chat request failed')
-    }
+  if (!response.ok) {
+    throw new Error('Interview chat request failed')
+  }
 
-    const payload = (await response.json()) as { reply?: unknown }
-    if (!isInterviewMessage(payload.reply)) {
-      throw new Error('Interview chat payload has invalid reply shape')
-    }
+  const payload = (await response.json()) as { reply?: unknown }
+  if (!isInterviewMessage(payload.reply)) {
+    throw new Error('Interview chat payload has invalid reply shape')
+  }
 
-    return {
-      reply: payload.reply,
-    }
-  } catch {
-    return createMockReply(message)
+  return {
+    reply: payload.reply,
   }
 }

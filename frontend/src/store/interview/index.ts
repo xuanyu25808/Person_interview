@@ -74,12 +74,11 @@ export const useInterviewStore = defineStore('interview', () => {
 
     try {
       const payload = await sendInterviewMessage({
-        sessionId: currentSessionId.value,
-        message: value,
-        history: messages.value.slice(0, -1).map((message) => ({
+        messages: messages.value.map((message) => ({
           role: message.role,
           content: message.content,
         })),
+        mode: mode.value,
       })
 
       status.value = 'responding'

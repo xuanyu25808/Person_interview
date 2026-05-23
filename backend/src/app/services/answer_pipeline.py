@@ -1,42 +1,26 @@
-from app.services.memory import MemoryManager
-from app.services.persona import build_persona_prompt
-from app.services.retrieval import retrieve_documents
+from __future__ import annotations
 
-memory_manager = MemoryManager()
+from datetime import datetime, timezone
+from uuid import uuid4
+
+from app.schemas.interview import InterviewMessage
+from app.services.llm_service import llm_service
+from app.services.rag_service import rag_service
 
 
-def build_answer(session_id: str, message: str, history: list[dict[str, str]] | None = None) -> tuple[str, str]:
-    history = history or []
-    for turn in history:
-        memory_manager.record_turn(session_id, turn["role"], turn["content"])
+def build_answer(messages: list[dict[str, str]]) -> InterviewMessage:
+    interviewer_messages = [message for message in messages if message["role"] == "interviewer"]
+    if not interviewer_messages:
+        raise ValueError("At least one interviewer message is required")
 
-    memory_manager.record_turn(session_id, "user", message)
-    memory_manager.maybe_writeback(session_id, message)
+    query = interviewer_messages[-1]["content"]
+    rag_result = rag_service.retrieve(query)
+    reply_content = llm_service.generate_reply(messages, rag_result.context_text)
 
-    summary = memory_manager.get_summary(session_id)
-    recent_turns = memory_manager.get_recent_turns(session_id, limit=4)
-    retrieved = retrieve_documents(message)
-    topic = retrieved[0].slug if retrieved else "general"
-    sources = ", ".join(f"{item.slug}.md" for item in retrieved) or "notes.md"
-
-    evidence = []
-    if retrieved:
-        evidence.append(retrieved[0].content.splitlines()[-1].strip("- "))
-    if memory_manager.get_written_memories(session_id):
-        evidence.append(memory_manager.get_written_memories(session_id)[-1])
-    if recent_turns:
-        evidence.append(recent_turns[-1].content)
-
-    detail = evidence[0] if evidence else "I can only answer from the local candidate materials currently available."
-    grounding_note = "Grounded in local candidate materials only; unsupported claims are declined."
-    _ = build_persona_prompt()
-    reply = (
-        f"[assistant] {detail}. "
-        f"Topic: {topic}. "
-        f"Summary: {summary}. "
-        f"{grounding_note} "
-        f"[source:{sources}]"
+    return InterviewMessage(
+        id=f"msg_{uuid4().hex}",
+        role="assistant",
+        content=reply_content,
+        sources=[citation.__dict__ for citation in rag_result.citations],
+        createdAt=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     )
-
-    memory_manager.record_turn(session_id, "assistant", reply)
-    return reply, topic
