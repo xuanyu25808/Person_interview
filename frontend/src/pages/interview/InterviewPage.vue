@@ -33,13 +33,13 @@
               <TerminalChatPanel
                 ref="chatPanelRef"
                 :messages="store.messages"
+                :status-label="statusLabel"
               />
             </section>
           </transition>
 
           <transition name="bottom-bar-slide">
             <div v-if="store.hasStarted" class="bottom-bar-wrap">
-              <p v-if="statusLabel" class="status-banner status-banner-chat">{{ statusLabel }}</p>
               <TerminalBottomBar
                 :disabled="store.isBusy"
                 :draft="store.draft"
@@ -212,10 +212,6 @@ const statusLabel = computed(() => {
   letter-spacing: 0.06em;
   color: #00647c;
   text-align: center;
-}
-
-.status-banner-chat {
-  margin-bottom: 14px;
 }
 
 .landing-fade-enter-active,

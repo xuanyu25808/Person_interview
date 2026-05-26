@@ -21,16 +21,15 @@
         </div>
 
         <div class="message-card" :class="message.role === 'interviewer' ? 'message-card-user' : 'message-card-ai'">
-          <section v-if="message.role === 'assistant' && message.thinking" class="message-thinking">
-            <div class="message-thinking-header">
-              <span class="message-thinking-title">AI 正在思考</span>
-              <span class="message-thinking-phase">{{ phaseLabelMap[message.thinking.phase] }}</span>
-            </div>
-            <p class="message-thinking-summary">{{ message.thinking.summary }}</p>
-          </section>
-
           <p class="message-content">
-            {{ message.content }}<span v-if="message.role === 'assistant' && message.state === 'streaming'" class="streaming-cursor" aria-hidden="true"></span>
+            {{ message.content }}
+            <template v-if="message.role === 'assistant' && message.state === 'streaming'">
+              <span
+                v-if="!message.content && statusLabel"
+                class="streaming-status"
+              >{{ statusLabel }}</span>
+              <span class="streaming-cursor" aria-hidden="true"></span>
+            </template>
           </p>
 
           <section v-if="message.role === 'assistant' && message.sources.length" class="message-citations">
@@ -66,13 +65,8 @@ import type { InterviewMessage } from '../../../store/interview/types'
 
 const props = defineProps<{
   messages: InterviewMessage[]
+  statusLabel?: string
 }>()
-
-const phaseLabelMap = {
-  retrieving: '检索资料中',
-  thinking: '归纳证据中',
-  responding: '生成回答中',
-} as const
 
 const scrollContainer = ref<HTMLDivElement | null>(null)
 
@@ -193,44 +187,6 @@ defineExpose({
   box-shadow: inset 0 0 0 1px rgba(0, 100, 124, 0.04);
 }
 
-.message-thinking {
-  margin-bottom: 16px;
-  padding: 14px 16px;
-  border: 1px solid rgba(0, 100, 124, 0.14);
-  border-radius: 16px;
-  background: rgba(0, 100, 124, 0.04);
-}
-
-.message-thinking-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.message-thinking-title,
-.message-thinking-phase {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.message-thinking-title {
-  color: #00647c;
-}
-
-.message-thinking-phase {
-  color: #3e484d;
-}
-
-.message-thinking-summary {
-  margin: 10px 0 0;
-  font-size: 13px;
-  line-height: 22px;
-  color: #234055;
-}
-
 .message-content {
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
@@ -238,6 +194,15 @@ defineExpose({
   line-height: 24px;
   color: #0b1c30;
   white-space: pre-wrap;
+}
+
+.streaming-status {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #00647c;
 }
 
 .streaming-cursor {
