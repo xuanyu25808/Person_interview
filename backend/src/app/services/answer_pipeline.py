@@ -148,8 +148,28 @@ def stream_answer(messages: list[dict[str, str]]) -> Iterator[str]:
         )
     )
 
+    yield _event_payload(InterviewStreamEvent(type="status", status="responding", replyId=reply_id, createdAt=created_at))
+    yield _event_payload(
+        InterviewStreamEvent(
+            type="thinking",
+            status="responding",
+            replyId=reply_id,
+            createdAt=created_at,
+            thinking=_create_thinking("responding", "正在把整理后的证据转成最终回答。"),
+        )
+    )
+
     try:
-        reply_content = llm_service.generate_reply(messages, rag_result.context_text)
+        for chunk in llm_service.stream_reply(messages, rag_result.context_text):
+            yield _event_payload(
+                InterviewStreamEvent(
+                    type="delta",
+                    status="responding",
+                    replyId=reply_id,
+                    createdAt=created_at,
+                    delta=chunk,
+                )
+            )
     except LLMDependencyError as error:
         yield _event_payload(
             InterviewStreamEvent(
@@ -163,18 +183,6 @@ def stream_answer(messages: list[dict[str, str]]) -> Iterator[str]:
         yield _event_payload(InterviewStreamEvent(type="done", status="done", replyId=reply_id, createdAt=created_at))
         return
 
-    yield _event_payload(InterviewStreamEvent(type="status", status="responding", replyId=reply_id, createdAt=created_at))
-    yield _event_payload(
-        InterviewStreamEvent(
-            type="thinking",
-            status="responding",
-            replyId=reply_id,
-            createdAt=created_at,
-            thinking=_create_thinking("responding", "正在把整理后的证据转成最终回答。"),
-        )
-    )
-    for chunk in _chunk_text(reply_content):
-        yield _event_payload(InterviewStreamEvent(type="delta", status="responding", replyId=reply_id, createdAt=created_at, delta=chunk))
     yield _event_payload(
         InterviewStreamEvent(
             type="sources",
