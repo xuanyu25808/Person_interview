@@ -1,0 +1,15 @@
+[24305366ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:4174/@vite/client:559
+[63905946ms] [ERROR] Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED @ http://127.0.0.1:4174/:0
+[64134553ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:4174/@vite/client:559
+[66035721ms] [ERROR] Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED @ http://127.0.0.1:4174/:0
+[66054513ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:4174/@vite/client:559
+[67483096ms] [ERROR] Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED @ http://127.0.0.1:4174/:0
+[70170613ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Request) @ http://127.0.0.1:4174/src/style.css?t=1779507905657:0
+[70170614ms] [ERROR] [hmr] Failed to reload /src/style.css. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://127.0.0.1:4174/@vite/client:175
+[70170617ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Request) @ http://127.0.0.1:4174/src/pages/interview/InterviewPage.vue?t=1779507905657:0
+[70170617ms] [ERROR] [hmr] Failed to reload /src/pages/interview/InterviewPage.vue. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://127.0.0.1:4174/@vite/client:175
+[70170619ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Request) @ http://127.0.0.1:4174/src/style.css?t=1779507905659:0
+[70170619ms] [ERROR] [hmr] Failed to reload /src/style.css. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://127.0.0.1:4174/@vite/client:175
+[70170621ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Request) @ http://127.0.0.1:4174/src/pages/interview/InterviewPage.vue?t=1779507905659:0
+[70170621ms] [ERROR] [hmr] Failed to reload /src/pages/interview/InterviewPage.vue. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://127.0.0.1:4174/@vite/client:175
+[70170757ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:4174/@vite/client:559

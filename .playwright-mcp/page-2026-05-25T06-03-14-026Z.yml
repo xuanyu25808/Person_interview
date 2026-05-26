@@ -1,0 +1,16 @@
+- main [ref=e3]:
+  - generic [ref=e8]:
+    - heading "欢迎来到谢流星演示页" [level=1] [ref=e9]
+    - paragraph [ref=e10]: 略略略
+    - generic [ref=e12]:
+      - generic [ref=e14]:
+        - textbox "请输入您的问题..." [ref=e15]
+        - generic [ref=e16]:
+          - button "重置" [ref=e17] [cursor=pointer]
+          - button "播报开" [ref=e18] [cursor=pointer]
+          - button "开麦" [ref=e19] [cursor=pointer]
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - button "↻" [ref=e22] [cursor=pointer]
+          - button "🔊" [ref=e23] [cursor=pointer]
+        - button "发送消息" [ref=e24] [cursor=pointer]

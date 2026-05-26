@@ -1,32 +1,77 @@
 from __future__ import annotations
 
+from typing import Any
+
+try:
+    from volcenginesdkarkruntime import Ark
+except ModuleNotFoundError:
+    Ark = Any
+
 from app.core.config import settings
 from app.services.persona import build_persona_prompt
 
 
+class LLMDependencyError(RuntimeError):
+    pass
+
+
 class LLMService:
-    def ensure_client(self) -> None:
-        if settings.interview_model == "placeholder" and not settings.ark_endpoint_id:
-            raise RuntimeError("Interview model configuration is missing")
+    def __init__(self) -> None:
+        self._client: Ark | None = None
+
+    def ensure_client(self) -> Ark:
+        if self._client is not None:
+            return self._client
+        if not settings.ark_api_key or not settings.ark_endpoint_id:
+            raise LLMDependencyError("Interview model configuration is missing")
+        if Ark is Any:
+            raise LLMDependencyError("Ark SDK is not installed")
+        try:
+            self._client = Ark(
+                base_url=settings.ark_base_url,
+                api_key=settings.ark_api_key,
+                timeout=1800,
+            )
+        except Exception as error:
+            raise LLMDependencyError("Ark client initialization failed") from error
+        return self._client
 
     def generate_reply(self, history_messages: list[dict[str, str]], rag_context: str) -> str:
-        self.ensure_client()
-        latest_question = next(
-            (message["content"] for message in reversed(history_messages) if message["role"] == "interviewer"),
-            "",
-        )
-        persona_prompt = build_persona_prompt()
-        if rag_context:
-            return (
-                f"{latest_question}\n\n"
-                f"基于候选人资料，我建议从项目背景、个人职责、技术难点和结果四个维度来回答。\n\n"
-                f"参考资料：{rag_context.splitlines()[0].strip()}"
+        client = self.ensure_client()
+        messages = [
+            {
+                "role": "system",
+                "content": f"{build_persona_prompt()}\n\nCandidate materials:\n{rag_context.strip()}",
+            },
+            *[
+                {
+                    "role": "user" if message["role"] == "interviewer" else "assistant",
+                    "content": message["content"],
+                }
+                for message in history_messages
+            ],
+        ]
+        try:
+            response = client.chat.completions.create(
+                model=settings.ark_endpoint_id,
+                messages=messages,
+                temperature=0.3,
+                stream=False,
             )
-        return (
-            f"{latest_question}\n\n"
-            "当前资料里没有直接支持这次回答的检索结果，我会坚持基于已有候选人资料回答，避免编造未经支持的经历。\n\n"
-            f"约束：{persona_prompt}"
-        )
+        except Exception as error:
+            raise LLMDependencyError("Ark request failed") from error
+
+        choice = response.choices[0] if getattr(response, "choices", None) else None
+        message = getattr(choice, "message", None)
+        content = getattr(message, "content", "")
+        if isinstance(content, list):
+            content = "".join(
+                item.get("text", "") if isinstance(item, dict) else getattr(item, "text", "")
+                for item in content
+            )
+        if not isinstance(content, str) or not content.strip():
+            raise LLMDependencyError("Ark returned empty content")
+        return content.strip()
 
 
 llm_service = LLMService()

@@ -1,0 +1,25 @@
+- main [ref=e3]:
+  - generic [ref=e6]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: ◉
+          - generic [ref=e31]: 面试官输入
+        - paragraph [ref=e33]: "77"
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: ◆
+          - generic [ref=e37]: 谢流星AI输出
+        - paragraph [ref=e39]: 我暂时没法基于现有资料给出可靠回答。 原因：Knowledge base returned no usable evidence for this question
+    - generic [ref=e41]:
+      - generic [ref=e43]:
+        - textbox "请输入您的问题..." [ref=e44]
+        - generic [ref=e45]:
+          - button "重置" [ref=e46] [cursor=pointer]
+          - button "播报开" [ref=e47] [cursor=pointer]
+          - button "开麦" [ref=e48] [cursor=pointer]
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - button "↻" [ref=e51] [cursor=pointer]
+          - button "🔊" [ref=e52] [cursor=pointer]
+        - button "发送消息" [ref=e53] [cursor=pointer]

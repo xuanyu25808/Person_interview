@@ -1,0 +1,31 @@
+- main [ref=e3]:
+  - generic [ref=e6]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: ◉
+          - generic [ref=e31]: 面试官输入
+        - paragraph [ref=e33]: retrieval
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: ◆
+          - generic [ref=e37]: 谢流星AI输出
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e40]:
+              - generic [ref=e41]: AI 正在思考
+              - generic [ref=e42]: 检索资料中
+            - paragraph [ref=e43]: 正在检索候选人资料与相关项目证据。
+          - paragraph [ref=e44]: 我暂时没法基于现有资料给出可靠回答。 原因：Knowledge base configuration is missing
+    - generic [ref=e46]:
+      - generic [ref=e48]:
+        - textbox "请输入您的问题..." [ref=e49]
+        - generic [ref=e50]:
+          - button "重置" [ref=e51] [cursor=pointer]
+          - button "播报开" [ref=e52] [cursor=pointer]
+          - button "开麦" [ref=e53] [cursor=pointer]
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - button "↻" [ref=e56] [cursor=pointer]
+          - button "🔊" [ref=e57] [cursor=pointer]
+        - button "发送消息" [ref=e58] [cursor=pointer]

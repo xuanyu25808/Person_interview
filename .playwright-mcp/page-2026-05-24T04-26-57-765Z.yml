@@ -1,0 +1,46 @@
+- main [ref=e3]:
+  - generic [ref=e6]:
+    - generic [ref=e25]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]: ◉
+            - generic [ref=e31]: 面试官输入
+          - paragraph [ref=e33]: source attribution retrieval
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]: ◆
+            - generic [ref=e37]: 谢流星AI输出
+          - generic [ref=e38]:
+            - paragraph [ref=e39]: source attribution retrieval 基于候选人资料，我建议从项目背景、个人职责、技术难点和结果四个维度来回答。 参考资料：# Projects 约束：You are the assistant role for an AI interview twin. Ground every answer in the candidate materials, especially resume, projects, notes, and interview QA. Do not invent experience, achievements, timelines, or technologies that are not supported by the candidate materials. If the materials do not support a claim, say that directly and stay concise.
+            - generic [ref=e40]:
+              - heading "引用来源" [level=3] [ref=e41]
+              - list [ref=e42]:
+                - listitem [ref=e43]:
+                  - paragraph [ref=e44]: projects.md
+                  - link "knowledge/projects.md" [ref=e45] [cursor=pointer]:
+                    - /url: knowledge/projects.md
+                  - paragraph [ref=e46]: Retrieval Project
+                - listitem [ref=e47]:
+                  - paragraph [ref=e48]: interview_qa.md
+                  - link "knowledge/interview_qa.md" [ref=e49] [cursor=pointer]:
+                    - /url: knowledge/interview_qa.md
+                  - paragraph [ref=e50]: "A: Use retrieval, memory summaries, and explicit source tags tied to local knowledge."
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: ◉
+            - generic [ref=e68]: 面试官输入
+          - paragraph [ref=e70]: completely unmatched phrase xyz
+      - paragraph [ref=e71]: 当前问题缺少可引用依据，请换一种问法或补充更具体的背景。
+    - generic [ref=e52]:
+      - generic [ref=e54]:
+        - textbox "请输入您的问题..." [ref=e55]
+        - generic [ref=e56]:
+          - button "重置" [ref=e57] [cursor=pointer]
+          - button "播报开" [ref=e58] [cursor=pointer]
+          - button "开麦" [ref=e59] [cursor=pointer]
+      - generic [ref=e60]:
+        - generic [ref=e61]:
+          - button "↻" [ref=e62] [cursor=pointer]
+          - button "🔊" [ref=e63] [cursor=pointer]
+        - button "发送消息" [ref=e64] [cursor=pointer]

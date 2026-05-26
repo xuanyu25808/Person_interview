@@ -29,3 +29,7 @@ uv sync --directory backend
 uv run --directory backend uvicorn app.main:app --app-dir src --reload
 uv run --directory backend pytest
 ```
+
+
+
+

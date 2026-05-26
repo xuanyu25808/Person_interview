@@ -1,0 +1,21 @@
+- main [ref=e3]:
+  - generic [ref=e6]:
+    - generic [ref=e25]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: ◉
+          - generic [ref=e31]: 面试官输入
+        - paragraph [ref=e33]: 请介绍你的 retrieval 项目。
+      - paragraph [ref=e34]: 当前检索或生成服务暂时不可用，请稍后重试。
+    - generic [ref=e36]:
+      - generic [ref=e38]:
+        - textbox "请输入您的问题..." [ref=e39]
+        - generic [ref=e40]:
+          - button "重置" [ref=e41] [cursor=pointer]
+          - button "播报开" [ref=e42] [cursor=pointer]
+          - button "开麦" [ref=e43] [cursor=pointer]
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - button "↻" [ref=e46] [cursor=pointer]
+          - button "🔊" [ref=e47] [cursor=pointer]
+        - button "发送消息" [ref=e48] [cursor=pointer]

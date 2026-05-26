@@ -10,12 +10,20 @@ class MessageCitation(BaseModel):
     kind: str
 
 
+class InterviewThinking(BaseModel):
+    phase: Literal["retrieving", "thinking", "responding"]
+    summary: str
+    updatedAt: str
+
+
 class InterviewMessage(BaseModel):
     id: str
     role: Literal["interviewer", "assistant"]
     content: str
     sources: list[MessageCitation] = Field(default_factory=list)
     createdAt: str
+    state: Literal["streaming", "done", "error"] | None = None
+    thinking: InterviewThinking | None = None
 
 
 class InterviewChatRequest(BaseModel):
@@ -36,3 +44,14 @@ class InterviewChatRequest(BaseModel):
 
 class InterviewChatResponse(BaseModel):
     reply: InterviewMessage
+
+
+class InterviewStreamEvent(BaseModel):
+    type: Literal["status", "thinking", "delta", "sources", "done", "error"]
+    status: Literal["retrieving", "thinking", "responding", "done", "error"] | None = None
+    thinking: InterviewThinking | None = None
+    delta: str | None = None
+    sources: list[MessageCitation] | None = None
+    replyId: str | None = None
+    createdAt: str | None = None
+    error: str | None = None

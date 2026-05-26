@@ -27,7 +27,33 @@
       "WebFetch(domain:github.com)",
       "Bash(git clone *)",
       "Read(//c/Users/DXM-1002/Desktop/xuanyu/project_1/AI-language-speak/**)",
-      "Bash(git -C \"c:/Users/DXM-1002/Desktop/xuanyu/project_1/AI-language-speak\" log --oneline -5)"
+      "Bash(git -C \"c:/Users/DXM-1002/Desktop/xuanyu/project_1/AI-language-speak\" log --oneline -5)",
+      "Bash(python -m pytest \"c:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-aba42692859a394f7/backend/tests/test_interview_api.py\")",
+      "Bash(git -C \"/mnt/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-aba42692859a394f7\" status --short)",
+      "Bash(git -C \"/mnt/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-aba42692859a394f7\" diff -- backend/src/app/core/config.py backend/src/app/schemas/interview.py backend/tests/test_interview_api.py)",
+      "Bash(git -C \"/mnt/c/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-aba42692859a394f7\" ls-files \"backend/src/app/core/config.py\" \"backend/src/app/schemas/interview.py\" \"backend/tests/test_interview_api.py\")",
+      "Bash(git -C \"c:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-aba42692859a394f7\" status --short)",
+      "Bash(git -C \"c:/Users/DXM-1002/Desktop/xuanyu/xuanyu/.claude/worktrees/agent-aba42692859a394f7\" ls-files \"backend/src/app/core/config.py\" \"backend/src/app/schemas/interview.py\" \"backend/tests/test_interview_api.py\")",
+      "Bash(uv pip *)",
+      "Bash(uv run *)",
+      "Bash(python *)",
+      "Bash(npm *)",
+      "mcp__playwright__browser_fill_form",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_network_request",
+      "Bash(pnpm *)",
+      "Bash(uv *)",
+      "Bash(git *)",
+      "Bash(taskkill //PID 44244 //F)",
+      "Bash(taskkill *)",
+      "Bash(tasklist *)",
+      "Bash(wmic process *)",
+      "Bash(powershell *)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "Framelink MCP for Figma"
+  ]
 }

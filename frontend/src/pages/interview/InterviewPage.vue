@@ -10,9 +10,9 @@
                 <h1 class="landing-title">欢迎来到谢流星演示页</h1>
                 <p class="landing-copy">
                   略略略
-                  <!-- 你可以直接追问项目经历、架构取舍、技术深度，或者我在工程推进中的判断方式。 -->
                 </p>
                 <div class="landing-input-wrap">
+                  <p v-if="statusLabel" class="status-banner">{{ statusLabel }}</p>
                   <TerminalBottomBar
                     :disabled="store.isBusy"
                     :draft="store.draft"
@@ -39,6 +39,7 @@
 
           <transition name="bottom-bar-slide">
             <div v-if="store.hasStarted" class="bottom-bar-wrap">
+              <p v-if="statusLabel" class="status-banner status-banner-chat">{{ statusLabel }}</p>
               <TerminalBottomBar
                 :disabled="store.isBusy"
                 :draft="store.draft"
@@ -60,11 +61,25 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useInterviewStore } from '../../store/interview'
 import TerminalBottomBar from './components/TerminalBottomBar.vue'
 import TerminalChatPanel from './components/TerminalChatPanel.vue'
 
 const store = useInterviewStore()
+
+const statusLabel = computed(() => {
+  if (store.displayStatus === 'retrieving') {
+    return '正在检索资料'
+  }
+  if (store.displayStatus === 'thinking') {
+    return '正在思考'
+  }
+  if (store.displayStatus === 'responding') {
+    return '正在生成回答'
+  }
+  return ''
+})
 </script>
 
 <style scoped>
@@ -144,6 +159,12 @@ const store = useInterviewStore()
   padding: 32px;
 }
 
+.chat-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .landing-card {
   width: min(100%, 920px);
   display: flex;
@@ -177,6 +198,24 @@ const store = useInterviewStore()
 
 .bottom-bar-wrap {
   flex-shrink: 0;
+}
+
+.status-banner {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 100, 124, 0.14);
+  border-radius: 14px;
+  background: rgba(0, 100, 124, 0.05);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #00647c;
+  text-align: center;
+}
+
+.status-banner-chat {
+  margin-bottom: 14px;
 }
 
 .landing-fade-enter-active,
